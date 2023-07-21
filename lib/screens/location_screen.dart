@@ -1,35 +1,36 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:weather_app/Model/weather.dart';
 import 'package:weather_app/Model/weatherModel.dart';
 
-import '../Model/weather.dart';
 import '../utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({super.key, required this.weather_info});
-  final WeatherModel weather_info;
+  const LocationScreen({super.key, required this.weatherModel});
+  final Weather_Model weatherModel;
   @override
   LocationScreenState createState() => LocationScreenState();
 }
 
 class LocationScreenState extends State<LocationScreen> {
-  int? temp;
-  String? name;
-  int? weatherId;
-  String? message;
-  String? icon;
-  fetchweather_info() async {
-    Weather_Model? weather_model = await widget.weather_info.getModelData();
-    temp = weather_model?.main.temp.toInt();
-    name = weather_model?.name;
-    weatherId = weather_model?.weather[0].id;
-    //   icon=weather_model.
-  }
+  // int? temp;
+  // String? name;
+  // int? weatherId;
+  // String? message;
+  // String? icon;
+
+  // fetchweather_info() async {
+  //   Weather_Model? weather_model = await widget.weather_info.getModelData();
+  //   temp = weather_model?.main.temp.toInt();
+  //   name = weather_model?.name;
+  //   weatherId = weather_model?.weather[0].id;
+  //   //   icon=weather_model.
+  // }
 
   @override
   void initState() {
-    fetchweather_info();
+    // fetchweather_info();
 
     super.initState();
   }
@@ -96,13 +97,14 @@ class LocationScreenState extends State<LocationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("icon!,"),
+                    Text(WeatherModel().getWeatherIcon(
+                        id: widget.weatherModel.weather.first.id)),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          "$temp",
+                          "${widget.weatherModel.main.temp}",
                           style: kTempTextStyle,
                         ),
                         Column(
@@ -147,7 +149,8 @@ class LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: EdgeInsets.only(right: 24.0),
                 child: Text(
-                  message!,
+                  WeatherModel()
+                      .getMessage(temp: widget.weatherModel.main.temp),
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
